@@ -14,7 +14,7 @@ const makeSut = (): SutTypes => {
     return {sut, emailValidatoStub}
 }
 
-const makeEmailValidatorStub = () => {
+const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
         isValid(email: string): boolean {
             return true
