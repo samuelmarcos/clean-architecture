@@ -8,7 +8,7 @@ interface SutTypes {
     emailValidatoStub: EmailValidator
 }
 
-const makeSut = () => {
+const makeSut = (): SutTypes => {
     const emailValidatoStub = makeEmailValidatorStub()
     const sut = new SignUpController(emailValidatoStub)
 
@@ -118,5 +118,23 @@ describe('Signup Controller', () => {
 
         sut.handle(httpRequest)
         expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com')
+    })
+
+    test('should return 500 if EmailValidator throws', () => {
+        const { sut, emailValidatoStub } = makeSut()
+
+        const httpRequest = {
+            body: {
+                name: 'any_email',
+                email: 'invalid_email',
+                password: 'any_password',
+                password_confirmation: 'any_password',
+            }
+        }
+        jest.spyOn(emailValidatoStub, 'isValid').mockReturnValueOnce(false)
+
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual(new InvalidParamError('email'))
     })
 })
