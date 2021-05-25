@@ -1,17 +1,21 @@
 import { InvalidParamError, MissingParamError, ServerError } from "../errors"
 import { SignUpController } from "./signup"
 import { EmailValidator} from '../protocols'
+import { AddAccount, AddAccountModel } from '../domain/usecases/add-account'
+import { AccountModel } from '../domain/models/account'
 
 interface SutTypes {
     sut: SignUpController,
     emailValidatoStub: EmailValidator
+    addAccountStub: AddAccount
 }
 
 const makeSut = (): SutTypes => {
     const emailValidatoStub = makeEmailValidatorStub()
-    const sut = new SignUpController(emailValidatoStub)
+    const addAccountStub = makeAddAccountStub()
+    const sut = new SignUpController(emailValidatoStub, addAccountStub)
 
-    return {sut, emailValidatoStub}
+    return {sut, emailValidatoStub, addAccountStub }
 }
 
 const makeEmailValidatorStub = (): EmailValidator => {
@@ -21,6 +25,21 @@ const makeEmailValidatorStub = (): EmailValidator => {
         }
     }
     return new EmailValidatorStub()
+}
+
+const makeAddAccountStub = (): AddAccount => {
+    class AddAccountStub implements AddAccount {
+        add(account: AddAccountModel): AccountModel {
+            const fakeAccount = {
+                id: 'valid_id',
+                name: 'valid_name',
+                email: 'valid_email@email.com',
+                password: 'valid_passeword'
+            }
+            return fakeAccount;
+        }
+    }
+    return new AddAccountStub()
 }
 
 describe('Signup Controller', () => {
@@ -168,5 +187,26 @@ describe('Signup Controller', () => {
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(500)
         expect(httpResponse.body).toEqual(new ServerError())
+    })
+
+    test('should call AddAccount with correct email', () => {
+        const { sut, addAccountStub } = makeSut()
+
+        const httpRequest = {
+            body: {
+                name: 'any_name',
+                email: 'any_email@email.com',
+                password: 'any_password',
+                password_confirmation: 'any_password'
+            }
+        }
+        const addSpy = jest.spyOn(addAccountStub, 'add')
+
+        sut.handle(httpRequest)
+        expect(addSpy).toHaveBeenCalledWith({
+            name: 'any_name',
+            email: 'any_email@email.com',
+            password: 'any_password',
+        })
     })
 })
