@@ -17,7 +17,7 @@ const makeSut = () : SutTypes => {
 }
 
 const makeEncrypterStub = () => {
-    class EncrypterStub {
+    class EncrypterStub implements Encrypter {
         async encrypt(value: string) : Promise<string> {
             return new Promise(resolve => resolve('hashed_value'))
         }
