@@ -4,6 +4,8 @@ import { AccountModel } from '../../../../presentation/domain/models/account'
 
 export const MongoHelper = {
     client: null as MongoClient,
+    url: null as any,
+    
     async connect(url: string | undefined) : Promise<void> {
         this.client = await MongoClient.connect(url, {
             useNewUrlParser: true,
@@ -13,9 +15,13 @@ export const MongoHelper = {
 
     async disconnect(): Promise<void> {
         await this.client.close()
+
+        this.client = null
     },
 
-    getCollection(name: string): Collection {
+    async getCollection(name: string): Promise<Collection> {
+        if(!this.client?.isConnected())
+            await this.connect(this.url)
         return this.client.db().collection(name)
     },
 
