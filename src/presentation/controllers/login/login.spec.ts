@@ -2,6 +2,7 @@ import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
 import { EmailValidator, HttpRequest, Authentication } from './login-protocols'
 import { LoginController } from './login'
+import { rejects } from 'node:assert'
 
 interface SutTypes {
     sut: LoginController
@@ -126,6 +127,16 @@ describe('Login Controller',() => {
 
         const httpResponse = await sut.handle(makeFakeHttpRequest())
         expect(httpResponse).toEqual(unauthorized())
+
+    })
+
+    test('should 500 if authrntivation throws', async () => {
+        const { sut, authenticationStub } = makeSut()
+
+        jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => {reject(new Error())}))
+
+        const httpResponse = await sut.handle(makeFakeHttpRequest())
+        expect(httpResponse).toEqual(serverError(new ServerError('any_stack')))
 
     })
 })
