@@ -1,4 +1,4 @@
-import { AddAccount } from '../../../presentation/domain/usecases/add-account'
+import { AddAccount } from '../../../domain/usecases/add-account'
 import { DbAddAccount } from '../add-account/db-add-account'
 import { Encrypter, AddAccountModel, AccountModel, AddAccountRepository } from './db-add-account-protocols'
 
