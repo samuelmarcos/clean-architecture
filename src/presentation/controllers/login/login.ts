@@ -24,7 +24,7 @@ export class LoginController implements Controller {
 
             if(!isValid) return badRequest(new InvalidParamError('email'))
 
-            this.authentication.auth(email, password)
+            await this.authentication.auth(email, password)
 
             return new Promise(resolve => resolve({
                 statusCode: 200,
