@@ -1,6 +1,6 @@
 import { InvalidParamError, MissingParamError, ServerError } from "../../errors"
 import { SignUpController } from "./signup"
-import { AddAccount, AddAccountModel,AccountModel, EmailValidator } from '../signup/signup-protocols'
+import { AddAccount, AddAccountModel,AccountModel, EmailValidator, Validation } from '../signup/signup-protocols'
 import { HttpRequest } from "../../protocols"
 import { ok, serverError, badRequest } from '../../helpers/http-helper'
 
@@ -8,15 +8,27 @@ interface SutTypes {
     sut: SignUpController,
     emailValidatoStub: EmailValidator
     addAccountStub: AddAccount
+    validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
     const emailValidatoStub = makeEmailValidatorStub()
     const addAccountStub = makeAddAccountStub()
-    const sut = new SignUpController(emailValidatoStub, addAccountStub)
+    const validationStub = makeValidationStub()
+    const sut = new SignUpController(emailValidatoStub, addAccountStub, validationStub)
 
-    return {sut, emailValidatoStub, addAccountStub }
+    return {sut, emailValidatoStub, addAccountStub, validationStub }
 }
+
+const makeValidationStub = (): Validation => {
+    class ValidationStub implements Validation {
+        validate(input: any): void {
+            return
+        }
+    }
+
+    return new ValidationStub()
+} 
 
 const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
@@ -177,5 +189,16 @@ describe('Signup Controller', () => {
         const { sut } = makeSut()
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse).toEqual(ok(makeFakeAccount()))
+    })
+
+    test('should call Validation with correct email', async () => {
+        const { sut, validationStub } = makeSut()
+        const validateSpy = jest.spyOn(validationStub, 'validate')
+
+        const httpRequest = makeFakeRequest()
+
+        await sut.handle(httpRequest)
+        
+        expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
     })
 })
