@@ -24,20 +24,22 @@ const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository =>
 }
 
 const makeSut = () => {
-    const sut = new DbAthentication()
+
+    const loadAccountByEmailRepositoryStub = makeloadAccountByEmailRepositoryStub()
+    const sut = new DbAthentication(loadAccountByEmailRepositoryStub)
 
     return {
-        sut
+        sut,
+        loadAccountByEmailRepositoryStub
     }
 }
 
 describe('Db Athentication', () => {
     test('should call LoadAccountByEmailRepository with correct email', async () => {
 
-        const loadAccountByEmailRepositoryStub = makeloadAccountByEmailRepositoryStub()
-        const {sut} = makeSut()
+        const {sut, loadAccountByEmailRepositoryStub} = makeSut()
         const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
         await sut.auth(makeFakeAthenticationModel())
-        expect(loadSpy).toHaveBeenLastCalledWith(makeFakeAthenticationModel())
+        expect(loadSpy).toHaveBeenLastCalledWith(makeFakeAthenticationModel().email)
     })
 })
