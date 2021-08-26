@@ -136,7 +136,7 @@ describe('Db Athentication', () => {
         await expect(promise).rejects.toThrow()
     })
 
-    test('should call TokenGenerator with correct id', async () => {
+    test('should call TokenGenerator returns a token os sucess', async () => {
 
         const {sut} = makeSut()
         const token = await sut.auth(makeFakeAthenticationModel())
