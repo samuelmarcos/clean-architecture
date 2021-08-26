@@ -96,4 +96,12 @@ describe('Db Athentication', () => {
         const promise = sut.auth(makeFakeAthenticationModel())
         await expect(promise).rejects.toThrow()
     })
+
+    test('should return null if HashCompare returns false', async () => {
+
+        const {sut, hashCompareStub} = makeSut()
+        const loadSpy = jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve, reject)=> resolve(false)))
+        const accessToken = await sut.auth(makeFakeAthenticationModel())
+        expect(accessToken).toBe(null)
+    })
 })
