@@ -5,5 +5,5 @@ export interface AthenticationModel {
 
 
 export interface Authentication {
-    auth(authentication: AthenticationModel): Promise<string>
+    auth(authentication: AthenticationModel): Promise<string | null>
 }
