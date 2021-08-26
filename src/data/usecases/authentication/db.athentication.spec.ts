@@ -5,14 +5,14 @@ import { AthenticationModel } from "../../../domain/usecases/authenctication"
 
 interface SutTypes {
     sut: DbAthentication
-    loadAccountByEmailRepositoryStub: loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
 }
 
 const makeFakeAthenticationModel = (): AthenticationModel => {
     return {email: 'any_email@email.com', password: 'any_password'}
 }
 
-const makeloadAccountByEmailRepositoryStub = (): loadAccountByEmailRepositoryStub => {
+const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
     class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
         async load(email: string ): Promise<AccountModel> {
             const account: AccountModel = {
