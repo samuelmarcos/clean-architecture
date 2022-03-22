@@ -58,5 +58,8 @@
     "mongodb": "^3.6.10",
     "ts-node": "^9.1.1",
     "validator": "^13.6.0"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
