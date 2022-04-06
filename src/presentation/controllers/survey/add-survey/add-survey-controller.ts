@@ -1,3 +1,4 @@
+import { serverError } from "../../../helpers/http/http-helper"
 import { AddSurvey, Controller, HttpRequest, HttpResponse, Validation } from "./add-survey-controller-protocols"
 
 export class AddSurveyController implements Controller {
@@ -6,15 +7,21 @@ export class AddSurveyController implements Controller {
         private readonly addSurvey: AddSurvey) {}
 
     public async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-        this.validation.validate(httpRequest.body)
 
-        const { question, answers} = httpRequest.body
+        try {
+            this.validation.validate(httpRequest.body)
 
-        await this.addSurvey.add({
-            question,
-            answers
-        })
+            const { question, answers} = httpRequest.body
 
-        return null
+            await this.addSurvey.add({
+                question,
+                answers
+            })
+
+            return null
+
+        } catch (error) {
+            return serverError(error)
+        }
     }
 }
