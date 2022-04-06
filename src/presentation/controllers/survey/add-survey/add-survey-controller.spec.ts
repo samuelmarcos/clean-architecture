@@ -1,4 +1,4 @@
-import { Controller, HttpRequest, HttpResponse, Validation } from "./add-survey-controller-protocols"
+import { HttpRequest, Validation } from "./add-survey-controller-protocols"
 import { AddSurveyController } from '../add-survey/add-survey-controller'
 
 describe('AddSurvey Controller', () => {
