@@ -36,7 +36,7 @@ describe('Account Mongo respository', () => {
         }
     }
 
-    test('should add a survey on success', async () => {
+    test('should add on success', async () => {
         const sut = makeSut()
 
         const fakeSurveyModel = makeFakeSurveyModel()
