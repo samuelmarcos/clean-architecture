@@ -54,7 +54,7 @@ const makeRequest = (): HttpRequest => {
 
 describe('Auth Middleware', () => {
     test('Should return 403 if no x-access-token exists in header', async () => {
-        const { sut, loadAccountByTokenStub } = makeSut()
+        const { sut } = makeSut()
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
     })
@@ -65,5 +65,12 @@ describe('Auth Middleware', () => {
         const loadSpy = jest.spyOn(loadAccountByTokenStub , 'load')
         expect(loadSpy).toHaveBeenCalledWith('access-token')
         
+    })
+
+    test('Should return 403 if LoadAccountByToken returns null', async () => {
+        const { sut, loadAccountByTokenStub } = makeSut()
+        jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(new Promise(resolve => {resolve(null)}))
+        const httpResponse = await sut.handle(makeFakeRequest())
+        expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
     })
 })
