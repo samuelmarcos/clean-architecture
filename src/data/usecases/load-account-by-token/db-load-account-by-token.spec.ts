@@ -7,7 +7,7 @@ interface SutTypes {
     decrypterStub: Decrypter
 }
 
-const makeSut = () => {
+const makeSut = (): SutTypes => {
     const decrypterStub = makeDecrypterStub()
     const sut = new DbLoadAccountByToken(decrypterStub)
     return { sut, decrypterStub }
