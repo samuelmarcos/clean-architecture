@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Decrypter } from '../../../data/protocols/cryptography/decrypter';
 import { Encrypter } from "../../../data/protocols/cryptography/encrypter";
 
@@ -10,8 +10,8 @@ export class JwtAdapter implements Encrypter, Decrypter {
         return await jwt.sign({id: value}, this.secret)   
     }
 
-    public async decrypt(value: string): Promise<string | null> {
-        await jwt.verify(value, this.secret)
-        return null
+    public async decrypt(token: string): Promise<string | JwtPayload> {
+        const value = await jwt.verify(token, this.secret)
+        return value
     }
 }
