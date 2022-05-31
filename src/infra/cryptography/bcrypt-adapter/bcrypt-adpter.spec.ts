@@ -17,31 +17,33 @@ const makeSut = () => {
 }
 
 describe('Bcrypt Adapter', () => {
-    test('should call hash with correct value', async () => {
-        const sut  = makeSut()
-        const hashSpy = jest.spyOn(bcrypt, 'hash')
-        await sut.hash('any_value')
-        expect(hashSpy).toHaveBeenLastCalledWith('any_value', salt)
-    })
-
-    test('should return a valid hash on hash success', async () => {
-        const sut  = makeSut()
+    describe('hash()', () => {
+        test('should call hash with correct value', async () => {
+            const sut  = makeSut()
+            const hashSpy = jest.spyOn(bcrypt, 'hash')
+            await sut.hash('any_value')
+            expect(hashSpy).toHaveBeenLastCalledWith('any_value', salt)
+        })
     
-        const hashedValue = await sut.hash('any_value')
-        expect(hashedValue).toBe('hash')
-    })
-
-    test('should call compare with correct value', async () => {
-        const sut  = makeSut()
-        const comparehSpy = jest.spyOn(bcrypt, 'compare')
-        await sut.compare('any_value', 'any_hash')
-        expect(comparehSpy).toHaveBeenLastCalledWith('any_value', 'any_hash')
-    })
-
-    test('should return true whrn compare success', async () => {
-        const sut  = makeSut()
+        test('should return a valid hash on hash success', async () => {
+            const sut  = makeSut()
+        
+            const hashedValue = await sut.hash('any_value')
+            expect(hashedValue).toBe('hash')
+        })
     
-        const isValid = await sut.compare('any_value', 'any_hash')
-        expect(isValid).toBe(true)
+        test('should call compare with correct value', async () => {
+            const sut  = makeSut()
+            const comparehSpy = jest.spyOn(bcrypt, 'compare')
+            await sut.compare('any_value', 'any_hash')
+            expect(comparehSpy).toHaveBeenLastCalledWith('any_value', 'any_hash')
+        })
+    })
+    describe('compare()', () => {
+        test('should return true whrn compare success', async () => {
+            const sut  = makeSut()
+            const isValid = await sut.compare('any_value', 'any_hash')
+            expect(isValid).toBe(true)
+        })
     })
 })
