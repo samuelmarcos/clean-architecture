@@ -20,7 +20,7 @@ describe('Survey routes', () => {
         await MongoHelper.disconnect()
     })
     describe('POST /surveys', () => {
-        test('should return 204 on add surveys success', async () => {
+        test('should return 403 on add surveys success', async () => {
             app.post('api/surveys', (req, res) => res.send(req.body))
             await request(app)
                 .post('/api/surveys')
