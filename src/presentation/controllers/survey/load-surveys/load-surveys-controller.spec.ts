@@ -26,6 +26,11 @@ const makeFakeSurveys = (): SurveyModel[] => {
     ]
 }
 
+interface SutTypes {
+    sut: LoadSurveysController
+    loadSurveysStub: LoadSurveys
+}
+
 const makeLoadSurveysStub = () => {
     class LoadSurveysStub implements LoadSurveys {
         public async load(): Promise<SurveyModel[]> {
@@ -33,7 +38,7 @@ const makeLoadSurveysStub = () => {
         }
     }
 
-    return new LoadSurveysStub
+    return new LoadSurveysStub()
 }
 
 const makeSut = () => {
