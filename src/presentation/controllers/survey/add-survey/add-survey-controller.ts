@@ -11,11 +11,12 @@ export class AddSurveyController implements Controller {
         try {
             this.validation.validate(httpRequest.body)
 
-            const { question, answers} = httpRequest.body
+            const { question, answers } = httpRequest.body
 
             await this.addSurvey.add({
                 question,
-                answers
+                answers,
+                date: new Date()
             })
 
             return noContent()

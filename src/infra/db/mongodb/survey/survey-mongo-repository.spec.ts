@@ -32,7 +32,8 @@ describe('Account Mongo respository', () => {
                 answer : 'any_answer'
             }, {
                 answer : 'any_answer'   
-            }]
+            }],
+            date: new Date()
         }
     }
 

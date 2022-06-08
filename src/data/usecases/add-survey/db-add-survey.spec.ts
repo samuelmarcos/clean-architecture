@@ -1,8 +1,17 @@
 import { AddSurveyModel } from './db-add-survey-protocols'
 import { AddSurveyRepository } from '../../protocols/db/survey/add-survey-repository'
 import { DbAddSurvey } from '../add-survey/db-add-survey'
+import MockDate from 'mockdate'
 
 describe('DbAddSurvey UseCase', () => {
+
+    beforeAll(() => {
+        MockDate.set(new Date())
+    })
+
+    beforeAll(() => {
+        MockDate.reset()
+    })
 
     interface SutTypes {
         sut: DbAddSurvey
@@ -34,7 +43,8 @@ describe('DbAddSurvey UseCase', () => {
             answers: [{
                 image: 'any_image',
                 answer : 'any_answer'
-            }]
+            }],
+            date: new Date()
         }
     }
 

@@ -1,8 +1,17 @@
 import { HttpRequest, Validation, AddSurvey, AddSurveyModel } from "./add-survey-controller-protocols"
 import { AddSurveyController } from '../add-survey/add-survey-controller'
 import { badRequest, noContent, serverError } from "../../../helpers/http/http-helper"
+import MockDate from 'mockdate'
 
 describe('AddSurvey Controller', () => {
+
+    beforeAll(() => {
+        MockDate.set(new Date())
+    })
+
+    beforeAll(() => {
+        MockDate.reset()
+    })
 
     interface SutTypes {
         sut: AddSurveyController
@@ -17,7 +26,8 @@ describe('AddSurvey Controller', () => {
                 answers: [{
                     image: 'any_image',
                     answer: 'any_answer'
-                }]
+                }],
+                date: new Date()
             }
         }
     }
