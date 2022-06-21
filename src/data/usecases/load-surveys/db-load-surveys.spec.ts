@@ -2,6 +2,11 @@ import { SurveyModel } from "../../../presentation/controllers/survey/load-surve
 import { LoadSurveysRepository } from "../../protocols/db/survey/load-surveys-repository"
 import { DbLoadSurveys } from "./db-load-surveys"
 
+interface SutTypes {
+    sut: DbLoadSurveys
+    loaddSurveysRepositoryStub: LoadSurveysRepository
+}
+
 const makeFakeSurveys = (): SurveyModel[] => {
     return [
         {
@@ -26,7 +31,7 @@ const makeFakeSurveys = (): SurveyModel[] => {
     ]
 } 
 const makeLoadSurveysRepositoryStub = () => {
-    class LoaddSurveysRepository implements LoadSurveysRepository {
+    class LoaddSurveysRepositoryStub implements LoadSurveysRepository {
         async loadAll(): Promise<SurveyModel[]> {
             return new Promise(resolve => {
                 resolve(makeFakeSurveys())
@@ -34,13 +39,13 @@ const makeLoadSurveysRepositoryStub = () => {
         }
     }
 
-    return new LoaddSurveysRepository()
+    return new LoaddSurveysRepositoryStub()
 }
 
-const makeSut = () => {
-    const loaddSurveysRepository = makeLoadSurveysRepositoryStub()
-    const sut = new DbLoadSurveys(loaddSurveysRepository)
-    return { sut, loaddSurveysRepository }
+const makeSut = (): SutTypes => {
+    const loaddSurveysRepositoryStub = makeLoadSurveysRepositoryStub()
+    const sut = new DbLoadSurveys(loaddSurveysRepositoryStub)
+    return { sut, loaddSurveysRepositoryStub }
 }
 
 
