@@ -52,6 +52,33 @@ describe('Account Mongo respository', () => {
     })
 
     describe('loadAll()', () => {
-
+        test('should load all surveys on success', async () => {
+            await surveyCollection.insertMany([
+                {
+                    id: 'any_id',
+                    question: 'any_question',
+                    answers: [{
+                        image: 'any_image',
+                        answer: 'any_answer'
+                    }],
+                    date: new Date()
+                },
+        
+                {
+                    id: 'other_id',
+                    question: 'other_question',
+                    answers: [{
+                        image: 'other_id',
+                        answer: 'other_id'
+                    }],
+                    date: new Date()
+                }
+            ])
+            const sut = makeSut()
+            const surveys = await sut.loadAll()
+            expect(surveys.length).toBe(2)
+            expect(surveys[0].question).toBe('any_question')
+            expect(surveys[1].question).toBe('other_question')
+        })
     })
 })
