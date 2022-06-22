@@ -42,7 +42,7 @@ const makeLoadSurveysStub = () => {
     return new LoadSurveysStub()
 }
 
-const makeSut = () => {
+const makeSut = (): SutTypes => {
     const loadSurveysStub = makeLoadSurveysStub()
     const sut = new LoadSurveysController(loadSurveysStub)
 
