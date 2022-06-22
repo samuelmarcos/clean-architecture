@@ -82,14 +82,13 @@ describe('Survey routes', () => {
                 .expect(403)
         })
 
-        test('should return 204 on add surveys with valid accessToken', async () => {
+        test('should return 204 on load surveys with valid accessToken', async () => {
             const password = await hash('123', 12)
             const res = await accountCollection.insertOne({
                 name: 'any_name',
                 email: 'any_email@email.com.br',
                 password: password,
-                passwordConfirmation: password,
-                role: 'admin'
+                passwordConfirmation: password
             })
             const id = res.ops[0]._id
             const accessToken = sign({id}, env.jwtSecret)
@@ -98,19 +97,31 @@ describe('Survey routes', () => {
             },{
                $set: { accessToken }
             })
-            app.post('api/surveys', (req, res) => res.send(req.body))
+            await surveyCollection.insertMany([
+                {
+                    id: 'any_id',
+                    question: 'any_question',
+                    answers: [{
+                        image: 'any_image',
+                        answer: 'any_answer'
+                    }],
+                    date: new Date()
+                },
+        
+                {
+                    id: 'other_id',
+                    question: 'other_question',
+                    answers: [{
+                        image: 'other_id',
+                        answer: 'other_id'
+                    }],
+                    date: new Date()
+                }
+            ])
+            app.get('api/surveys', (req, res) => res.send(req.body))
             await request(app)
                 .post('/api/surveys')
                 .set('x-access-token', accessToken)
-                .send({
-                    question: 'any_question',
-                    answers: [{
-                        image: 'http://image-name.com',
-                        answer : 'any_answer'
-                    }, {
-                        answer : 'any_answer'   
-                    }]
-                })
                 .expect(204)
         })
     })
