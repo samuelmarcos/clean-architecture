@@ -12,7 +12,7 @@ describe('DbAddSurvey UseCase', () => {
         MockDate.reset()
     })
 
-    interface SutTypes {
+    type SutTypes =  {
         sut: DbAddSurvey
         addSurveyRepositoryStub: AddSurveyRepository
     }

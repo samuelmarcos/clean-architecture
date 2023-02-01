@@ -1,4 +1,4 @@
-export interface AthenticationModel {
+export type AthenticationModel = {
     email: string,
     password: string
 }

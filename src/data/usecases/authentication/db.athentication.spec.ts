@@ -7,7 +7,7 @@ import { AccountModel,
     AthenticationModel } from "./db.athentication.protocols"
 
 
-interface SutTypes {
+type SutTypes = {
     sut: DbAuthentication
     loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository,
     hashCompareStub: HashCompare
