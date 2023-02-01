@@ -1,9 +1,9 @@
 import { MongoClient, Collection } from 'mongodb'
-import { AccountModel } from '../../../../domain/models/account'
+import { AccountModel } from '@/domain/models/account'
 
 
 export const MongoHelper = {
-    client: null as MongoClient,
+    client: MongoClient,
     url: null as any,
     
     async connect(url: string | undefined) : Promise<void> {

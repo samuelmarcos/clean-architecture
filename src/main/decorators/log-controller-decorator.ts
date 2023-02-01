@@ -1,6 +1,5 @@
-import { LogErrorRepository } from "../../data/protocols/db/log/log-error-respository"
-import { SignUpController } from "../../presentation/controllers/login/signup/signup-controller"
-import { Controller, HttpRequest, HttpResponse } from "../../presentation/protocols"
+import { LogErrorRepository } from "@/data/protocols/db/log/log-error-respository"
+import { Controller, HttpRequest, HttpResponse } from "@/presentation/protocols"
 
 export class LogControllerDecorator implements Controller {
     constructor(private readonly controller: Controller,

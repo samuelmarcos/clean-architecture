@@ -1,7 +1,7 @@
-import { LoadAccountByToken } from '../../../domain/usecases/load-account-by-token'
-import { Decrypter } from '../../protocols/cryptography/decrypter'
-import { LoadAccoountByTokenRepository } from '../../protocols/db/account/load-account-by-token-repository'
-import { AccountModel } from '../add-account/db-add-account-protocols'
+import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
+import { Decrypter } from '@/data/protocols/cryptography/decrypter'
+import { LoadAccoountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
+import { AccountModel } from '@/domain/models/account'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 
 interface SutTypes {
@@ -28,7 +28,7 @@ const makeDecrypterStub = () => {
 
 const makeLoadAccoountByTokenRepositoryStub = () => {
     class LoadAccoountByTokenRepositoryStub implements LoadAccoountByTokenRepository {
-        async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
+        loadByToken(token: string, role?: string): Promise<AccountModel> {
             return new Promise(resolve => resolve(makeFakeAccount()))
         }
     }

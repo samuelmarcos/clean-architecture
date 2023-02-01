@@ -1,5 +1,5 @@
-import { AccountModel } from '../models/account'
-import { SurveyAnswerModel } from '../models/survey'
+import { AccountModel } from '@/domain/models/account'
+import { SurveyAnswerModel } from '@/domain/models/survey'
 
 export interface AddSurveyModel {
     question: string

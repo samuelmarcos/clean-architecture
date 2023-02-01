@@ -1,7 +1,5 @@
-
-import { RequiredFieldValidation } from '../../../../../validation/validators/required-field-validation'
-import { Validation } from '../../../../../presentation/protocols/validation'
-import { ValidationComposite } from '../../../../../validation/validators/validation-composite'
+import { Validation } from '@/presentation/protocols/validation'
+import { ValidationComposite, RequiredFieldValidation } from '@/validation/validators'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
 
