@@ -5,3 +5,4 @@ export type SurveyResultModel = {
     answer: String
     date: Date
 }
+
