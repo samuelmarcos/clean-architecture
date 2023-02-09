@@ -25,7 +25,7 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
         await accountCollection.updateOne({ _id: id }, { $set : { access_token: token }})
     }
 
-    async loadByToken(token: string, role?: string): Promise<AccountModel> {
+    async loadByToken(token: string, role?: string): Promise<AccountModel | null> {
         const accountCollection = await MongoHelper.getCollection('accounts')
         const account  = await accountCollection.findOne({ accessToken: token,
             $or:[{
