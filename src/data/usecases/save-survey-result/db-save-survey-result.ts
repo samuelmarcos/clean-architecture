@@ -4,7 +4,8 @@ export class DbSaveSurveyResult implements SaveSurveyResult {
 
   constructor(private readonly saveSurveyResultRepository: SaveSurveyResultRepository) {}
 
-  save(data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-    throw new Error("Method not implemented.");
+  public async save(data: SaveSurveyResultModel): Promise<SurveyResultModel> {
+    const surveyResult = await this.saveSurveyResultRepository.save(data)
+    return surveyResult
   }
 }
