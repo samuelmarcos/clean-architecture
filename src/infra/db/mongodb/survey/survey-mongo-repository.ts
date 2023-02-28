@@ -8,19 +8,18 @@ import { MongoHelper } from '../helpers/mongo-helper'
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository {
     public async add(surveyData: AddSurveyModel): Promise<void> {
         const accountCollection = await MongoHelper.getCollection('surveys') 
-        const result = await accountCollection.insertOne(surveyData)
-        return MongoHelper.map(result.ops[0])
+        await accountCollection.insertOne(surveyData)
     }
 
     public async loadAll(): Promise<SurveyModel[]> {
         const accountCollection = await MongoHelper.getCollection('surveys') 
         const surveys = await accountCollection.find().toArray()
-        return surveys
+        return MongoHelper.mapCollection(surveys)
     }
 
     public async loadById(id: string): Promise<SurveyModel> {
         const accountCollection = await MongoHelper.getCollection('surveys')
-        const result = accountCollection.findOne({ _id: id })
-        return result
+        const survey = accountCollection.findOne({ _id: id })
+        return survey && MongoHelper.map(survey)
     }
 }
