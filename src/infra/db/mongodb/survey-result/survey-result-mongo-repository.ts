@@ -12,6 +12,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
       $set: { answer: data.answer, date: data.date }
     }, {
       upsert: true,
+      returnDocument: "before"
     })
 
     return res.value && MongoHelper.map(res.value)
