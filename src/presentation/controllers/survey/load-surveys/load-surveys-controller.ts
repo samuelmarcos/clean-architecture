@@ -11,7 +11,7 @@ export class LoadSurveysController implements Controller {
             const surveys = await this.loadSurveys.load()
             return surveys?.length ? ok(surveys) : noContent()
             
-        } catch (error) {
+        } catch (error: any) {
             return serverError(error)
         }
     }
