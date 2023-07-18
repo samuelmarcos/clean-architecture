@@ -1,5 +1,5 @@
 import { AddSurveyModel, AddSurveyRepository } from './db-add-survey-protocols'
-import { DbAddSurvey } from '../add-survey/db-add-survey'
+import { DbAddSurvey } from './db-add-survey'
 import MockDate from 'mockdate'
 
 describe('DbAddSurvey UseCase', () => {
