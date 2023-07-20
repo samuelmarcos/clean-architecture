@@ -1,9 +1,9 @@
-export type AthenticationModel = {
+export type AthenticationParams = {
     email: string,
     password: string
 }
 
 
 export interface Authentication {
-    auth(authentication: AthenticationModel): Promise<string | null>
+    auth(authentication: AthenticationParams): Promise<string | null>
 }

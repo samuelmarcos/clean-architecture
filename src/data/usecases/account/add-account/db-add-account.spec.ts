@@ -1,5 +1,5 @@
 import { DbAddAccount } from './db-add-account'
-import { Hasher, AddAccountModel, AccountModel, AddAccountRepository , LoadAccountByEmailRepository} from './db-add-account-protocols'
+import { Hasher, AddAccountParams, AccountModel, AddAccountRepository , LoadAccountByEmailRepository} from './db-add-account-protocols'
 
 
 type SutTypes = {
@@ -18,7 +18,7 @@ const makeFakeAccount = (): AccountModel => {
     }
 }
 
-const makeFakeAccountData = (): AddAccountModel => {
+const makeFakeAccountData = (): AddAccountParams => {
     return {
         name: 'valid_name',
         email: 'valid_email@email.com',
@@ -62,7 +62,7 @@ const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository =>
 
 const makeAddAccountRepositoryStub = (): AddAccountRepository => {
     class AddAccountRepositoryStub implements AddAccountRepository {
-        async add(accountData: AddAccountModel): Promise<AccountModel> {
+        async add(accountData: AddAccountParams): Promise<AccountModel> {
             return new Promise(resolve => resolve(makeFakeAccount()))
         }
     }

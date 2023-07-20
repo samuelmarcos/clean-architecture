@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey'
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyMongoRepository } from './survey-mongo-repository'
 
@@ -24,7 +24,7 @@ describe('Survey Mongo respository', () => {
         await MongoHelper.disconnect()
     })
 
-    const makeFakeSurveyModel = (): AddSurveyModel => {
+    const makeFakeSurveyModel = (): AddSurveyParams => {
         return {
             question: 'any_question',
             answers: [{

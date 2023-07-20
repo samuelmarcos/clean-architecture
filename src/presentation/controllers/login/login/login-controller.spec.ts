@@ -2,7 +2,7 @@ import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { Validation , HttpRequest, Authentication } from './login-controller-protocols'
 import { LoginController } from './login-controller'
-import { AthenticationModel } from '@/domain/usecases/account/authenctication'
+import { AthenticationParams } from '@/domain/usecases/account/authenctication'
 
 type SutTypes = {
     sut: LoginController
@@ -32,7 +32,7 @@ const makeFakeHttpRequest = (): HttpRequest => {
 
 const makeAuthenticationStub = (): Authentication => {
     class AuthenticationStub implements Authentication {
-        async auth(authentication: AthenticationModel): Promise<string> {
+        async auth(authentication: AthenticationParams): Promise<string> {
             return new Promise(resolve => resolve('any_token'))
         }
     }

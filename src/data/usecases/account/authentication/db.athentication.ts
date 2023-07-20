@@ -3,7 +3,7 @@ import {Authentication,
     Encrypter, 
     UpdateAcessTokenRepository, 
     HashCompare, 
-    AthenticationModel } from "./db.athentication.protocols"
+    AthenticationParams } from "./db.athentication.protocols"
 
 export class DbAuthentication implements Authentication {
     constructor(private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
@@ -11,7 +11,7 @@ export class DbAuthentication implements Authentication {
                 private readonly encrypter: Encrypter,
                 private readonly updateAcessTokenRepository: UpdateAcessTokenRepository) {}
 
-    async auth(authentication: AthenticationModel): Promise<string | null> {
+    async auth(authentication: AthenticationParams): Promise<string | null> {
         const account = await this.loadAccountByEmailRepository.loadByEmail(authentication.email)
         if(account) {
             const isValid = await this.hashCompare.compare(authentication.password, account!.password)

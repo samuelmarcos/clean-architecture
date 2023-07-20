@@ -4,7 +4,7 @@ import { AccountModel,
     Encrypter, 
     UpdateAcessTokenRepository, 
     HashCompare, 
-    AthenticationModel } from "./db.athentication.protocols"
+    AthenticationParams } from "./db.athentication.protocols"
 
 
 type SutTypes = {
@@ -15,7 +15,7 @@ type SutTypes = {
     updateAcessTokenRepositoryStub: UpdateAcessTokenRepository
 }
 
-const makeFakeAthenticationModel = (): AthenticationModel => {
+const makeFakeAthenticationModel = (): AthenticationParams => {
     return {email: 'any_email@email.com', password: 'any_password'}
 }
 
