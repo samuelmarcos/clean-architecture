@@ -1,6 +1,7 @@
 import { DbSaveSurveyResult } from './db-save-survey-result'
 import { SaveSurveyResultRepository, SaveSurveyResultParams, SurveyResultModel } from './db-save-survey-result-protocols'
 import MockDate from 'mockdate'
+import { throwError } from '@/mocks/helpers'
 
 describe('DbSaveSurveyResult UseCase', () => {
 
@@ -58,7 +59,7 @@ describe('DbSaveSurveyResult UseCase', () => {
 
     test('should throw if SaveSurveyResultRepository throws', async () => {
         const { saveSurveyResultRepositoryStub, sut } = makeSut()
-        jest.spyOn(saveSurveyResultRepositoryStub, 'save').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+        jest.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(throwError)
         const promise = sut.save(makeFakeSurveyResult())
         await expect(promise).rejects.toThrow()
     })

@@ -1,6 +1,7 @@
 import MockDate from 'mockdate'
 import { DbLoadSurveyById } from './db-load-surveys-by-id'
 import { SurveyModel, LoadSurveyByIdRepository } from './db-load-surveys-by-id-protocols'
+import { throwError } from '@/mocks/helpers'
 
 const makeFakeSurvey = (): SurveyModel => {
   return {
@@ -65,7 +66,7 @@ describe('DbLoadSurveyById', () => {
 
   test('should throws if Decrypter throws', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadSurveyByIdRepositoryStub , 'loadById').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(loadSurveyByIdRepositoryStub , 'loadById').mockImplementationOnce(throwError)
     const promise = sut.loadById('any_id')
     expect(promise).rejects.toThrow()
   })
