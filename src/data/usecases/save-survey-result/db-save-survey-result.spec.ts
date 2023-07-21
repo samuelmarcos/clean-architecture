@@ -1,9 +1,9 @@
 import { DbSaveSurveyResult } from './db-save-survey-result'
-import { SaveSurveyResultRepository, SaveSurveyResultParams, SurveyResultModel } from './db-save-survey-result-protocols'
+import { SaveSurveyResultRepository } from './db-save-survey-result-protocols'
 import MockDate from 'mockdate'
 import { throwError } from '@/mocks/helpers'
 import { mockSurveyResult, mockSurveyResultData } from '@/mocks/domain'
-
+import { mockSaveResultSurveyRepository } from '@/mocks/data/db'
 describe('DbSaveSurveyResult UseCase', () => {
 
     beforeAll(() => {
@@ -20,21 +20,10 @@ describe('DbSaveSurveyResult UseCase', () => {
     }
 
     const makeSut = (): SutTypes => {
-        const saveSurveyResultRepositoryStub =  makeSaveResultSurveyRepositoryStub()
+        const saveSurveyResultRepositoryStub = mockSaveResultSurveyRepository()
         const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub)
 
         return { sut, saveSurveyResultRepositoryStub }
-    }
-
-    const makeSaveResultSurveyRepositoryStub = () => {
-        class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
-            public async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-                return new Promise((resolve) => {
-                    resolve(mockSurveyResult())
-                })
-            }
-        }
-        return new SaveSurveyResultRepositoryStub()
     }
   
     test('should call SaveSurveyResultRepository with correct values', async () => {
