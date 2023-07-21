@@ -5,7 +5,7 @@ import { AccountModel,
     UpdateAcessTokenRepository, 
     HashCompare, 
     AthenticationParams } from "./db.athentication.protocols"
-
+import { mockAccountModel } from '@/mocks/domain/index'
 
 type SutTypes = {
     sut: DbAuthentication

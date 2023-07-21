@@ -1,6 +1,6 @@
 import { DbAddAccount } from './db-add-account'
 import { Hasher, AddAccountParams, AccountModel, AddAccountRepository , LoadAccountByEmailRepository} from './db-add-account-protocols'
-import { mockFakeAccount, mockAddAccountParams} from '@/mocks/domain'
+import { mockAccountModel, mockAddAccountParams} from '@/mocks/domain'
 import { throwError } from '@/mocks/helpers'
 
 type SutTypes = {
@@ -48,7 +48,7 @@ const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository =>
 const makeAddAccountRepositoryStub = (): AddAccountRepository => {
     class AddAccountRepositoryStub implements AddAccountRepository {
         async add(accountData: AddAccountParams): Promise<AccountModel> {
-            return new Promise(resolve => resolve(mockFakeAccount()))
+            return new Promise(resolve => resolve(mockAccountModel()))
         }
     }
     return new AddAccountRepositoryStub()
@@ -67,7 +67,7 @@ describe('DbAddAccount usecase', () => {
         const { hasherStub, sut } = makeSut()
        
         jest.spyOn(hasherStub, 'hash').mockImplementationOnce(throwError)
-        const promiseAccount =  sut.add(mockFakeAccount())
+        const promiseAccount =  sut.add(mockAccountModel())
         await expect(promiseAccount).rejects.toThrow()
     })
 
@@ -94,12 +94,12 @@ describe('DbAddAccount usecase', () => {
     test('should return an account if on success', async () => {
         const { sut } = makeSut()
         const account = await sut.add(mockAddAccountParams())
-        expect(account).toEqual(mockFakeAccount())
+        expect(account).toEqual(mockAccountModel())
     })
 
     test('should return null if LoadAccountByEmailRepository not returns null', async () => {
         const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-        jest.spyOn(loadAccountByEmailRepositoryStub,'loadByEmail').mockReturnValueOnce(new Promise((resolve)=>{resolve(mockFakeAccount())}))
+        jest.spyOn(loadAccountByEmailRepositoryStub,'loadByEmail').mockReturnValueOnce(new Promise((resolve)=>{resolve(mockAccountModel())}))
         const account = await sut.add(mockAddAccountParams())
         expect(account).toBe(null)
     })

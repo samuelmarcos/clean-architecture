@@ -1,7 +1,7 @@
 import { AccountModel } from "@/domain/models/account"
 import { AddAccountParams } from "@/domain/usecases/account/add-account"
 
-export const mockFakeAccount = (): AccountModel => {
+export const mockAccountModel = (): AccountModel => {
   return {
       id: 'any_id',
       name: 'any_name',
