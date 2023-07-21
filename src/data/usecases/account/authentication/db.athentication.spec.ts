@@ -6,6 +6,7 @@ import { AccountModel,
     HashCompare, 
     AthenticationParams } from "./db.athentication.protocols"
 import { mockAccountModel } from '@/mocks/domain/index'
+import { mockEncrypter } from '@/mocks/data/cryptography'
 
 type SutTypes = {
     sut: DbAuthentication
@@ -19,14 +20,6 @@ const makeFakeAthenticationModel = (): AthenticationParams => {
     return {email: 'any_email@email.com', password: 'any_password'}
 }
 
-const makeFakeAccount = (): AccountModel => {
-    return {
-        id: 'any_id',
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'hashed_password'
-}
-}
 
 const makeHashCompareStub = (): HashCompare => {
     class HashCompareStub implements HashCompare {
@@ -41,22 +34,14 @@ const makeHashCompareStub = (): HashCompare => {
 const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
     class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
         async loadByEmail(email: string ): Promise<AccountModel> {
-            return new Promise(resolve => resolve(makeFakeAccount()))
+            return new Promise(resolve => resolve(mockAccountModel()))
         }
     }
 
     return new LoadAccountByEmailRepositoryStub()
 }
 
-const makeEncrypterStub = (): Encrypter => {
-    class Encrypter implements Encrypter {
-        async encrypt(value: string ): Promise<string> {
-            return new Promise(resolve => resolve('any_token'))
-        }
-    }
 
-    return new Encrypter()
-}
 
 const makeUpdateAcessTokenRepositoryStub = () => {
     class UpdateAcessTokenRepositoryStub implements UpdateAcessTokenRepository {
@@ -74,7 +59,7 @@ const makeSut = (): SutTypes => {
 
     const loadAccountByEmailRepositoryStub = makeloadAccountByEmailRepositoryStub()
     const hashCompareStub = makeHashCompareStub()
-    const encrypterStub = makeEncrypterStub()
+    const encrypterStub = mockEncrypter()
     const updateAcessTokenRepositoryStub = makeUpdateAcessTokenRepositoryStub()
     const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashCompareStub, encrypterStub, updateAcessTokenRepositoryStub)
 

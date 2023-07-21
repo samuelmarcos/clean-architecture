@@ -3,6 +3,7 @@ import { SignUpController } from "./signup-controller"
 import { AddAccount, AddAccountParams ,AccountModel, Validation, Authentication, AthenticationParams } from './signup-controller-protocols'
 import { HttpRequest } from "@/presentation/protocols"
 import { ok, serverError, badRequest, forbidden } from '@/presentation/helpers/http/http-helper'
+import { mockAccountModel } from '@/mocks/domain/index'
 
 type SutTypes = {
     sut: SignUpController,
@@ -44,19 +45,10 @@ const makeFakeRequest = (): HttpRequest => {
 const makeAddAccountStub = (): AddAccount => {
     class AddAccountStub implements AddAccount {
         async add(account: AddAccountParams): Promise<AccountModel> {
-            return new Promise(resolve => resolve(makeFakeAccount()));
+            return new Promise(resolve => resolve(mockAccountModel()));
         }
     }
     return new AddAccountStub()
-}
-
-const makeFakeAccount = (): AccountModel => {
-    return {
-        id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email@email.com',
-        password: 'valid_passeword'
-    }
 }
 
 const makeAuthenticationStub = (): Authentication => {
