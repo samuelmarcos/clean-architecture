@@ -1,8 +1,10 @@
 import { DbAddAccount } from './db-add-account'
-import { Hasher, AddAccountParams, AccountModel, AddAccountRepository , LoadAccountByEmailRepository} from './db-add-account-protocols'
+import { Hasher, AddAccountRepository , LoadAccountByEmailRepository} from './db-add-account-protocols'
 import { mockAccountModel, mockAddAccountParams} from '@/mocks/domain'
 import { throwError } from '@/mocks/helpers'
 import { mockHasher } from '@/mocks/data/cryptography'
+import { mockAddAccountRepository, mockLoadAccountByEmailRepository } from '@/mocks/data/db'
+
 
 type SutTypes = {
     hasherStub: Hasher
@@ -14,8 +16,8 @@ type SutTypes = {
 
 const makeSut = () : SutTypes => {
     const hasherStub = mockHasher()
-    const addAccountRepositoryStub = makeAddAccountRepositoryStub()
-    const loadAccountByEmailRepositoryStub = makeloadAccountByEmailRepositoryStub()
+    const addAccountRepositoryStub = mockAddAccountRepository()
+    const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository()
     const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
     
     return {
@@ -26,25 +28,6 @@ const makeSut = () : SutTypes => {
     }
 }
 
-const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
-    class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-        async loadByEmail(email: string ): Promise<AccountModel | null> {
-            return new Promise(resolve => resolve(null))
-        }
-    }
-
-    return new LoadAccountByEmailRepositoryStub()
-}
-
-
-const makeAddAccountRepositoryStub = (): AddAccountRepository => {
-    class AddAccountRepositoryStub implements AddAccountRepository {
-        async add(accountData: AddAccountParams): Promise<AccountModel> {
-            return new Promise(resolve => resolve(mockAccountModel()))
-        }
-    }
-    return new AddAccountRepositoryStub()
-}
 
 describe('DbAddAccount usecase', () => {
     test('should call Hasher with correct password', async () => {

@@ -3,7 +3,7 @@ import {Authentication,
     Encrypter, 
     UpdateAcessTokenRepository, 
     HashCompare, 
-    AthenticationParams } from "./db.athentication.protocols"
+    AthenticationParams } from "./db.authentication.protocols"
 
 export class DbAuthentication implements Authentication {
     constructor(private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
