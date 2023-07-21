@@ -2,49 +2,16 @@ import { LoadSurveysRepository, SurveyModel } from './db-load-surveys-protocols'
 import { DbLoadSurveys } from "./db-load-surveys"
 import MockDate from 'mockdate'
 import { throwError } from '@/mocks/helpers'
+import { mockLoadSurveysRepository } from '@/mocks/data/db'
+import { mockSurveys } from '@/mocks/domain'
 
 type SutTypes = {
     sut: DbLoadSurveys
     loaddSurveysRepositoryStub: LoadSurveysRepository
 }
 
-const makeFakeSurveys = (): SurveyModel[] => {
-    return [
-        {
-            id: 'any_id',
-            question: 'any_question',
-            answers: [{
-                image: 'any_image',
-                answer: 'any_answer'
-            }],
-            date: new Date()
-        },
-
-        {
-            id: 'other_id',
-            question: 'other_id',
-            answers: [{
-                image: 'other_id',
-                answer: 'other_id'
-            }],
-            date: new Date()
-        }
-    ]
-} 
-const makeLoadSurveysRepositoryStub = () => {
-    class LoaddSurveysRepositoryStub implements LoadSurveysRepository {
-        async loadAll(): Promise<SurveyModel[]> {
-            return new Promise(resolve => {
-                resolve(makeFakeSurveys())
-            })
-        }
-    }
-
-    return new LoaddSurveysRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
-    const loaddSurveysRepositoryStub = makeLoadSurveysRepositoryStub()
+    const loaddSurveysRepositoryStub = mockLoadSurveysRepository()
     const sut = new DbLoadSurveys(loaddSurveysRepositoryStub)
     return { sut, loaddSurveysRepositoryStub }
 }
@@ -70,7 +37,7 @@ describe('DbLoadSurveys', () => {
     test('Should return a list of surveys on success', async () => {
         const { sut } = makeSut()
         const surveys = await sut.load()
-        expect(surveys).toEqual(makeFakeSurveys())
+        expect(surveys).toEqual(mockSurveys())
     })
 
     test('should throws if Decrypter throws', async () => {
