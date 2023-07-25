@@ -65,3 +65,11 @@ export const mockAddFakeSurveyParams = (): AddSurveyParams => {
 }
 
 
+export const mockSurveyResultModel = (): SaveSurveyResultParams => {
+  return {
+    surveyId: 'any_id',
+    accountId: 'any_account',
+    answer: 'any_answer',
+    date: new Date
+  }
+}
