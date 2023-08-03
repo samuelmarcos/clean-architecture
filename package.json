@@ -2,6 +2,7 @@
   "name": "clean-architecture",
   "version": "1.0.0",
   "description": "",
+  "license": "GPL-3.0-or-later",
   "main": "index.js",
   "className": "Controller",
   "scripts": {
@@ -22,8 +23,7 @@
     "url": "git+https://github.com/samuelmarcos/clean-architecture.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Samuel Marcos Neto Barbosa",
   "bugs": {
     "url": "https://github.com/samuelmarcos/clean-architecture/issues"
   },
