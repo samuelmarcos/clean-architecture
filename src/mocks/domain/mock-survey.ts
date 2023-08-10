@@ -49,9 +49,25 @@ export const mockSurveyResultParams = (): SaveSurveyResultParams => {
   }
 }
 
-export const mockSurveyResult = (): SurveyResultModel => Object.assign({}, mockSurveyResultParams() , {
-  id: 'any_id'
-})
+export const mockSurveyResult = (): SurveyResultModel => {
+  return {
+    surveyId: 'any_id',
+    question: 'any_question',
+    answers: [{
+      image: 'any_image',
+      answer : 'any_answer',
+      count: 1,
+      percent: 50
+    },
+    {
+      image: 'any_image',
+      answer : 'any_answer',
+      count: 10,
+      percent: 80
+    }],
+    date: new Date()
+  }
+}
 
 export const mockAddFakeSurveyParams = (): AddSurveyParams => {
   return {
@@ -61,15 +77,5 @@ export const mockAddFakeSurveyParams = (): AddSurveyParams => {
           answer : 'any_answer'
       }],
       date: new Date()
-  }
-}
-
-
-export const mockSurveyResultModel = (): SaveSurveyResultParams => {
-  return {
-    surveyId: 'any_id',
-    accountId: 'any_account',
-    answer: 'any_answer',
-    date: new Date
   }
 }
