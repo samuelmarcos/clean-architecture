@@ -5,8 +5,8 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
   constructor(private readonly repository: LoadSurveyResultRepository) {}
 
   public async load(surveyId: string): Promise<SurveyResultModel> {
-    await this.repository.loadBySurveyId(surveyId)
-    return Promise.resolve(null)
+    const surveyResult = await this.repository.loadBySurveyId(surveyId)
+    return surveyResult
   }
   
 }
