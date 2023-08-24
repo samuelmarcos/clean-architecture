@@ -1,20 +1,22 @@
 import { throwError } from '@/mocks/helpers'
 import { DbLoadSurveyResult } from './db-load-survey-result'
-import { LoadSurveyResultRepository } from './db-load-survey-result-protocols'
+import { LoadSurveyResultRepository, LoadSurveyByIdRepository } from './db-load-survey-result-protocols'
 import { LoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-result'
-import { loadSurveyResultRepositoryMock } from '@/mocks/data/db'
+import { loadSurveyResultRepositoryMock, mockLoadSurveyByIdRepository } from '@/mocks/data/db'
 import { mockSurveyResult } from '@/mocks/domain'
 
 type SutTypes = {
   sut: LoadSurveyResult
   loadSurveyResultRepositoryStub: LoadSurveyResultRepository
+  loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyResultRepositoryStub = loadSurveyResultRepositoryMock()
-  const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub)
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository()
+  const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub)
   
-  return { sut, loadSurveyResultRepositoryStub }
+  return { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub }
 }
 
 describe('DbLoadSurveyResult UseCase', () => {
@@ -30,6 +32,14 @@ describe('DbLoadSurveyResult UseCase', () => {
     jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockImplementationOnce(throwError)
     const promise = sut.load('loadBySurveyId')
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should call LoadSurveyByIdRepository if LoadSurveyResultRepository returns null', async () => {
+    const { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = makeSut()
+    const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
+    jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockReturnValueOnce(Promise.resolve(null))
+    await sut.load('any_surveyId')
+    expect(loadByIdSpy).toHaveBeenCalledWith('any_surveyId')
   })
 
   test('Should return a survey result on success', async () => {
