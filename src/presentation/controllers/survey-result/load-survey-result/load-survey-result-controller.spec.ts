@@ -5,6 +5,7 @@ import { mockLoadSurveyById, mockSurveyResultUseCase } from "@/mocks/presentatio
 import { InvalidParamError } from "@/presentation/errors"
 import { throwError } from "@/mocks/helpers"
 import { mockSurveyResult } from "@/mocks/domain"
+import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: LoadSurveyResultController
@@ -30,6 +31,14 @@ const makeSut = (): SutTypes => {
 
 
 describe('Load Survey Result Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+      MockDate.reset()
+  })
+  
   test('should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
