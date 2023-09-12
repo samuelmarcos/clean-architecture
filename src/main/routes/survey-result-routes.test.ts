@@ -74,7 +74,7 @@ describe('Survey routes', () => {
                 .send({
                     answer: 'answer1'
                 })
-                .expect(403)
+                .expect(200)
         })
     }) 
 
@@ -85,7 +85,7 @@ describe('Survey routes', () => {
                 .expect(403)
         })
 
-        test('should return 200 on save survey result with accessToken', async () => {
+        test('should return 200 on load survey result with accessToken', async () => {
             const accessToken = await makeAccessToken()
             const res = await surveyCollection.insertOne(
                 {
@@ -101,12 +101,9 @@ describe('Survey routes', () => {
             )
             const surveyId = res.ops[0].id
             await request(app)
-                .put(`api/surveys/${surveyId}/results`)
+                .get(`api/surveys/${surveyId}/results`)
                 .set('x-access-token', accessToken)
-                .send({
-                    answer: 'answer1'
-                })
-                .expect(403)
+                .expect(200)
         })
     }) 
 })
