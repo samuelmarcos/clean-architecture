@@ -4,5 +4,3 @@ coverage
 ./data
 requirements
 .vscode
-coverage
-./data

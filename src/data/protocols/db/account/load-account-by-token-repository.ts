@@ -1,6 +1,9 @@
-import { AccountModel } from '@/domain/models/account'
-import { JwtPayload } from 'jsonwebtoken'
+export interface LoadAccountByTokenRepository {
+  loadByToken: (token: string, role?: string) => Promise<LoadAccountByTokenRepository.Result>
+}
 
-export interface LoadAccoountByTokenRepository {
-    loadByToken(token: string | JwtPayload, role?: string): Promise<AccountModel | null>
+export namespace LoadAccountByTokenRepository {
+  export type Result = {
+    id: string
+  }
 }
